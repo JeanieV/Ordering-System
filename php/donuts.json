@@ -1,0 +1,12 @@
+{
+    "donuts": [
+        {
+            "name": "plain",
+            "price": 4.00
+        },
+        {
+            "name": "glaze",
+            "price": 6.00
+        }
+    ]
+}

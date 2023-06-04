@@ -1,0 +1,102 @@
+body {
+    font-family: Georgia;
+    background-image: url('../img/donut.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+h1 {
+    font-size: 50px;
+    color: #FFAEBC;
+    padding: 15px;
+}
+
+h2 {
+    font-size: 25px;
+    color: #47484A;
+    padding: 15px;
+    text-align: center;
+}
+
+h3 {
+    font-size: 25px;
+    color: #47484A;
+    padding: 15px;
+}
+
+.formBackground {
+    background-color: #FBE7C6;
+    padding: 10px;
+    width: 50vw;
+    border: solid #A0E7E5 5px;
+}
+
+.labelStyle {
+    color: #47484A;
+    font-size: 25px;
+    padding: 10px;
+}
+
+.inputStyle {
+    height: 20px;
+}
+
+.description1 {
+    font-size: 17px;
+    color: #47484A;
+    padding: 10px;
+    text-align: center;
+}
+
+.usernameField {
+    text-align: center;
+}
+
+.submitStyle {
+    font-size: 17px;
+    background-color: #B4F8C8;
+    margin-left: 15px;
+}
+
+.home{
+    width: 70px;
+    height: 70px;
+}
+
+.donuts{
+    width: 150px;
+    height: 150px;
+}
+
+.ing {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 30px;
+    text-decoration: none;
+}
+
+.ing a {
+    text-decoration: none;
+}
+
+.ing h3 {
+    margin-bottom: 0;
+    text-decoration: none;
+    text-align: center;
+}
+
+
+.backDonut{
+    background-color: #FBE7C6;
+    padding: 10px;
+    width: 30vw;
+    border: solid #A0E7E5 5px;
+}
+
+.backDonut1{
+    background-color: #FBE7C6;
+    padding: 10px;
+    width: 50vw;
+    border: solid #A0E7E5 5px;
+}

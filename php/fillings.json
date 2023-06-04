@@ -1,0 +1,16 @@
+{
+    "fillings": [
+        {
+            "name": "Bavarian Cream",
+            "price": 2.00
+        },
+        {
+            "name": "Strawberry Jelly",
+            "price": 2.00
+        },
+        {
+            "name": "Chocolate",
+            "price": 2.00
+        }
+    ]
+}

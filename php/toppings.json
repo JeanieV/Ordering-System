@@ -1,0 +1,24 @@
+{
+    "toppings": [
+        {
+            "name": "Rainbow Jimmies Sprinkles",
+            "price": 2.00
+        },
+        {
+            "name": "Crushed Oreos",
+            "price": 2.00
+        },
+        {
+            "name": "Diced Fresh Strawberries",
+            "price": 2.00
+        },
+        {
+            "name": "Mini M&M's",
+            "price": 2.00
+        },
+        {
+            "name": "Chocolate Sprinkles",
+            "price": 2.00
+        }
+    ]
+}
