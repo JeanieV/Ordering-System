@@ -6,7 +6,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Store the form values in session variables
     $_SESSION['username'] = $_POST['username'];
-
     // Redirect to payment.php
     header("Location: ./order.php");
     exit();
@@ -20,8 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 }
-
-
 ?>
 
 <!DOCTYPE html>

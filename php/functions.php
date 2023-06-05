@@ -19,6 +19,7 @@ function backToHome()
     }
 }
 
+// Donut Class
 class Donut
 {
     public $name;
@@ -52,7 +53,7 @@ class Donut
 
 $jsonFile1 = './donuts.json';
 
-// This is where the ingredients gets pushed into the IngredientsArray
+// This is where the donuts gets pushed into the donutsArray
 function populateDonutsArray($jsonFile1)
 {
     $json1 = file_get_contents($jsonFile1);
@@ -65,11 +66,11 @@ function populateDonutsArray($jsonFile1)
     return $donutsArray;
 }
 
-// 'Storing' the ingredientsArray
+// 'Storing' the donutsArray
 $_SESSION['donutsArray'] = populateDonutsArray($jsonFile1);
 
 
-// Showing the available ingredients by name
+// Showing the available donuts
 function chooseDonuts()
 {
     foreach ($_SESSION['donutsArray'] as $index => $donut) {
@@ -88,7 +89,7 @@ function chooseDonuts()
 
         $donutDisplay = <<<DELIMITER
         <div class="ing">
-        <a href="functions.php?view=$index" class="btn btn-primary">
+        <a href="order.php?view=$index" class="btn btn-primary">
                 <h3>{$donut->get_name()}</h3>    
                 <img src="$imagePath.$imageExtension" alt="Donut Image" class="donuts">
                 <h3>R {$donut->get_price()}</h3> 
@@ -100,7 +101,20 @@ function chooseDonuts()
     }
 }
 
-class Topping {
+// Select a donut
+if (isset($_GET['view'])) {
+    $chosenDonut = $_GET['view'];
+    $_SESSION['chosenDonut'] = $chosenDonut;
+    $viewDonut = $_SESSION['donutsArray'][$chosenDonut];
+    $_SESSION['donutName'] = $viewDonut->get_name();
+    $_SESSION['donutPrice'] = $viewDonut->get_price();
+}
+
+
+
+// Topping Class
+class Topping
+{
     public $name;
     public $price;
 
@@ -132,7 +146,7 @@ class Topping {
 
 $jsonFile2 = './toppings.json';
 
-// This is where the ingredients gets pushed into the IngredientsArray
+// This is where the toppings gets pushed into the toppingsArray
 function populateToppingsArray($jsonFile2)
 {
     $json2 = file_get_contents($jsonFile2);
@@ -145,13 +159,23 @@ function populateToppingsArray($jsonFile2)
     return $toppingsArray;
 }
 
-// 'Storing' the ingredientsArray
+// 'Storing' the toppingsArray
 $_SESSION['toppingsArray'] = populateToppingsArray($jsonFile2);
 
 
-// Showing the available ingredients by name
+
 function chooseToppings()
 {
+    $selectedToppings = isset($_SESSION['selectedToppings']) ? $_SESSION['selectedToppings'] : [];
+
+    if (isset($_POST['toppingSelection'])) {
+        $_SESSION['selectedToppings'] = $_POST['toppingSelection'];
+    } else {
+        $_SESSION['selectedToppings'] = [];
+    }
+
+    $totalPrice = 0; // Initialize the total price variable
+
     foreach ($_SESSION['toppingsArray'] as $index => $topping) {
         $imageName = $topping->get_name();
         $imagePath = "../img/{$imageName}";
@@ -166,29 +190,27 @@ function chooseToppings()
             }
         }
 
-        $donutDisplay = <<<DELIMITER
-        <div class="ing">
-        <a href="functions.php?view=$index" class="btn btn-primary">
-                <h3>{$topping->get_name()}</h3>    
-                <img src="$imagePath.$imageExtension" alt="Donut Image" class="donuts">
-                <h3>R {$topping->get_price()}</h3> 
-        </a>
+        $checked = in_array($index, $_SESSION['selectedToppings']) ? 'checked' : '';
+        $disabled = count($selectedToppings) >= 3 && !in_array($index, $selectedToppings) ? 'disabled' : '';
+
+        $toppingDisplay = <<<DELIMITER
+        <div class="ing1">
+            <input type="checkbox" name="toppingSelection[]" value="$index" $checked $disabled>
+            <h3>{$topping->get_name()}</h3>    
+            <img src="$imagePath.$imageExtension" alt="Topping Image" class="donuts">
+            <h3>R {$topping->get_price()}</h3> 
         </div>
         DELIMITER;
 
-        echo $donutDisplay;
+        echo $toppingDisplay;
+
+        if (in_array($index, $_SESSION['selectedToppings'])) {
+            $totalPrice += $topping->get_price(); // Add the topping price to the total
+        }
     }
+
+    $_SESSION['toppingTotal'] = $totalPrice; // Store the total price in the session
 }
 
 
-// If the user clicks on the name, what will show?
-// if (isset($_GET['view'])) {
-//     $chosenIngredientIndex = $_GET['view'];
-//     $_SESSION['chosenIngredientIndex'] = $chosenIngredientIndex;
-//     $viewIngredient = $_SESSION['ingredientsArray'][$chosenIngredientIndex];
-//     $_SESSION['viewIngredientName'] = $viewIngredient->get_name();
-//     $_SESSION['viewIngredientPrice'] = $viewIngredient->get_price();
-//     header("Location: " . $_SESSION['viewIngredientName'] . ".php");
-//     exit;
-// }
 ?>
