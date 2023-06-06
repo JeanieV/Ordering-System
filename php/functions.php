@@ -110,8 +110,6 @@ if (isset($_GET['view'])) {
     $_SESSION['donutPrice'] = $viewDonut->get_price();
 }
 
-
-
 // Topping Class
 class Topping
 {
@@ -163,18 +161,14 @@ function populateToppingsArray($jsonFile2)
 $_SESSION['toppingsArray'] = populateToppingsArray($jsonFile2);
 
 
-
 function chooseToppings()
 {
-    $selectedToppings = isset($_SESSION['selectedToppings']) ? $_SESSION['selectedToppings'] : [];
-
-    if (isset($_POST['toppingSelection'])) {
-        $_SESSION['selectedToppings'] = $_POST['toppingSelection'];
-    } else {
-        $_SESSION['selectedToppings'] = [];
-    }
-
-    $totalPrice = 0; // Initialize the total price variable
+    $totalPrice = 0 || $_SESSION['totalPrice'];
+    
+    $totalPrice = 0;
+    $selectedCount = 0;
+    $maxToppings = 3; // Maximum number of toppings allowed
+    $errorFlag = false;
 
     foreach ($_SESSION['toppingsArray'] as $index => $topping) {
         $imageName = $topping->get_name();
@@ -190,26 +184,48 @@ function chooseToppings()
             }
         }
 
-        $checked = in_array($index, $_SESSION['selectedToppings']) ? 'checked' : '';
-        $disabled = count($selectedToppings) >= 3 && !in_array($index, $selectedToppings) ? 'disabled' : '';
-
         $toppingDisplay = <<<DELIMITER
         <div class="ing1">
-            <input type="checkbox" name="toppingSelection[]" value="$index" $checked $disabled>
-            <h3>{$topping->get_name()}</h3>    
-            <img src="$imagePath.$imageExtension" alt="Topping Image" class="donuts">
+            <h3>{$topping->get_name()}</h3>  
+            <input type="checkbox" name="toppings[]" value="$index">  
+            <img src="$imagePath.$imageExtension" alt="Donut Image" class="donuts">
             <h3>R {$topping->get_price()}</h3> 
         </div>
         DELIMITER;
 
         echo $toppingDisplay;
 
-        if (in_array($index, $_SESSION['selectedToppings'])) {
-            $totalPrice += $topping->get_price(); // Add the topping price to the total
+        if (isset($_POST['toppings']) && in_array($index, $_POST['toppings'])) {
+            if ($selectedCount >= $maxToppings) {
+                $errorFlag = true;
+                break;
+            }
+            $totalPrice += $topping->get_price();
+            $selectedCount++;
         }
     }
+    if ($errorFlag) {
+        echo "<p class='error'>Maximum $maxToppings toppings allowed. <br> Clear Toppings and choose again!</p>";
+        $totalPrice = 0; // Reset the total price
+    } else {
+        echo "<p>Total: R $totalPrice</p>";
+    }
+    
+}
 
-    $_SESSION['toppingTotal'] = $totalPrice; // Store the total price in the session
+
+function clearToppings()
+{
+    $clearDisplay = <<<DELIMITER
+        <div class="ing1">
+            <button type="submit" name"clearTopping"> Clear </button>
+        </div>
+        DELIMITER;
+
+    echo $clearDisplay;
+
+    $_SESSION['toppingName'] = array();
+    $_SESSION['toppingPrice'] = array();
 }
 
 

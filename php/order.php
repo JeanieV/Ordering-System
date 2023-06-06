@@ -16,19 +16,41 @@ if (isset($_SESSION['donutName']) && isset($_SESSION['donutPrice'])) {
     $selectedDonutPrice = 4;
 }
 
-// Display the selected topping name and price
-if (isset($_SESSION['selectedToppings']) && !empty($_SESSION['selectedToppings'])) {
-    $toppingNames = [];
-    $totalPrice = 0; // Initialize the total price variable
+// Clear the Toppings
+if (isset($_POST['clearTopping'])) {
+    $_SESSION['toppingName'] = array();
+    $_SESSION['toppingPrice'] = array();
+}
 
-    foreach ($_SESSION['selectedToppings'] as $toppingIndex) {
-        $topping = $_SESSION['toppingsArray'][$toppingIndex];
-        $toppingNames[] = $topping->get_name();
-        $totalPrice += $topping->get_price(); // Add the topping price to the total
+// Display the Toppings
+if (isset($_SESSION['toppingName']) && isset($_SESSION['toppingPrice'])) {
+    $toppingNames = $_SESSION['toppingName'];
+    $toppingPrices = $_SESSION['toppingPrice'];
+} else {
+    $toppingNames = array(); 
+    $toppingPrices = array(); 
+}
+
+// The Selected Toppings will show in order.php
+if (isset($_POST['submitToppings']) && isset($_POST['toppings'])) {
+    
+    $selectedToppings = $_POST['toppings'];
+
+    foreach ($selectedToppings as $toppingIndex) {
+        $selectedTopping = $_SESSION['toppingsArray'][$toppingIndex];
+        $toppingNames[] = $selectedTopping->get_name();
+        $toppingPrices[] = $selectedTopping->get_price();
     }
 
-    $selectedToppingNames = implode(', ', $toppingNames);
-    $selectedToppingPrices = "R " . $totalPrice;
+    $_SESSION['toppingName'] = $toppingNames;
+    $_SESSION['toppingPrice'] = $toppingPrices;
+
+    // Check if an error occurred (totalPrice is 0)
+    if ($_SESSION['totalPrice'] === 0) {
+        echo "<p class='error'>Maximum toppings limit exceeded. Please make a new selection.</p>";
+        $_SESSION['toppingName'] = array();
+        $_SESSION['toppingPrice'] = array();
+    }
 }
 
 ?>
@@ -58,14 +80,23 @@ if (isset($_SESSION['selectedToppings']) && !empty($_SESSION['selectedToppings']
     </div>
 
     <!-- Donut Topping -->
-    <form method="POST">
+    <form method="post" action="order.php">
 
         <div class="donutAnswer2">
             <h3> Your Donut Topping:</h3>
-            <?php echo "<p>$selectedToppingNames</p>" ?>
-            <?php echo "<p>Total: $selectedToppingPrices</p>" ?>
+            <?php if (!empty($toppingNames)) {
+                for ($i = 0; $i < count($toppingNames); $i++) {
+                    echo "<p>{$toppingNames[$i]} - R {$toppingPrices[$i]}</p>";
+                }
+            } else {
+                echo "<p>No Toppings Selected</p>";
+            } ?>
             <?php chooseToppings(); ?>
-            <button type="submit">Submit</button>
+
+            <div class="ing1">
+                <button type="submit" class="submitStyle" name="submitToppings">Choose Toppings</button>
+                <button type="submit" class="submitStyle" name="clearTopping">Clear Toppings</button>
+            </div>
         </div>
     </form>
 

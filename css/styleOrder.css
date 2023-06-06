@@ -92,11 +92,21 @@ h3 {
 }
 
 .submitStyle {
-    font-size: 17px;
+    font-size: 20px;
     background-color: #B4F8C8;
+    padding: 5px;
+    margin: auto;
+}
+
+input[type=checkbox] {
+    transform: scale(2);
+}
+
+.checkbox{
+    display: flex;
+    vertical-align: middle;   
 }
 
 .error {
     color: red;
-    font-weight: bold;
-}
+  }
