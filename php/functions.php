@@ -1,22 +1,18 @@
 <?php
 session_start();
 
-// Home button function
-function backToHome()
+// Log out function
+
+function logOut()
 {
-    $home = <<<DELIMITER
-    <form method="GET" name="myForm">
-       <a href="./index.php"><img class="home" src="../img/home.gif"
-        alt="Back to Home" title="Back to Home"
-        attribution="https://www.flaticon.com/free-animated-icons/home"></a>
+    $logOUT = <<<DELIMITER
+    <form method="GET">
+    <button type="submit" name="logOutButton"><img class="logOutStyle" src="../img/logout.png" 
+    alt="Log Out" title="Log Out" attribution="https://www.flaticon.com/free-icons/logout"></button>
     </form>
     DELIMITER;
 
-    echo $home;
-
-    if (isset($_GET['homeButton'])) {
-        header("Location: ../php/index.php");
-    }
+echo $logOUT;
 }
 
 // Donut Class
@@ -160,11 +156,10 @@ function populateToppingsArray($jsonFile2)
 // 'Storing' the toppingsArray
 $_SESSION['toppingsArray'] = populateToppingsArray($jsonFile2);
 
-
 function chooseToppings()
 {
-    $totalPrice = 0 || $_SESSION['totalPrice'];
-    
+    $totalPrice = $_SESSION['totalPrice'];
+
     $totalPrice = 0;
     $selectedCount = 0;
     $maxToppings = 3; // Maximum number of toppings allowed
@@ -210,9 +205,8 @@ function chooseToppings()
     } else {
         echo "<p>Total: R $totalPrice</p>";
     }
-    
-}
 
+}
 
 function clearToppings()
 {
@@ -228,5 +222,119 @@ function clearToppings()
     $_SESSION['toppingPrice'] = array();
 }
 
+
+// Topping Class
+class Filling
+{
+    public $name;
+    public $price;
+
+    function __construct($name, $price)
+    {
+        $this->name = $name;
+        $this->price = $price;
+    }
+
+    // Methods
+    function set_name($name)
+    {
+        $this->name = $name;
+    }
+    public function get_name()
+    {
+        return $this->name;
+    }
+
+    function set_price($price)
+    {
+        $this->price = $price;
+    }
+    public function get_price()
+    {
+        return $this->price;
+    }
+}
+
+$jsonFile3 = './fillings.json';
+
+// This is where the toppings gets pushed into the fillingsArray
+function populateFillingsArray($jsonFile3)
+{
+    $json3 = file_get_contents($jsonFile3);
+    $fillings = json_decode($json3)->fillings;
+    $fillingsArray = array();
+    foreach ($fillings as $filling) {
+        array_push($fillingsArray, new Filling($filling->name, $filling->price));
+    }
+
+    return $fillingsArray;
+}
+
+// 'Storing' the fillingsArray
+$_SESSION['fillingsArray'] = populateFillingsArray($jsonFile3);
+
+
+function chooseFillings()
+{
+    foreach ($_SESSION['fillingsArray'] as $index => $filling) {
+        $imageName = $filling->get_name();
+        $imagePath = "../img/{$imageName}";
+
+        // Determine the appropriate image extension based on availability
+        $imageExtensions = ['webp', 'jpg', 'JPG'];
+        foreach ($imageExtensions as $extension) {
+            $imageFile = $imagePath . '.' . $extension;
+            if (file_exists($imageFile)) {
+                $imageExtension = $extension;
+                break;
+            }
+        }
+
+        $fillingDisplay = <<<DELIMITER
+        <div class="ingFill">
+        <a href="order.php?fill=$index" class="btn btn-primary">
+                <h3>{$filling->get_name()}</h3>    
+                <img src="$imagePath.$imageExtension" alt="Donut Image" class="donuts">
+                <h3>R {$filling->get_price()}</h3> 
+        </a>
+        </div>
+        DELIMITER;
+
+        echo $fillingDisplay;
+
+        // Check if filling is already selected in the session
+        if (!isset($_SESSION['fillingName']) || !isset($_SESSION['fillingPrice'])) {
+            // Default selection
+            $_SESSION['fillingName'] = "None Selected";
+            $_SESSION['fillingPrice'] = 0;
+        }
+    }
+}
+
+
+// Select a Filling
+if (isset($_GET['fill'])) {
+    $chosenFilling = $_GET['fill'];
+    $_SESSION['chosenFilling'] = $chosenFilling;
+    $viewFilling = $_SESSION['fillingsArray'][$chosenFilling];
+    $_SESSION['fillingName'] = $viewFilling->get_name();
+    $_SESSION['fillingPrice'] = $viewFilling->get_price();
+}
+
+// Quantity Validation
+
+function quantityValidate()
+{
+    if (isset($_POST['quantitySubmit'])) {
+        $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : 0;
+
+        if ($quantity > 0) {
+            header("Location: ../php/order.php?quantity=$quantity");
+            exit();
+        } elseif ($quantity < 0) {
+            echo "<p>Only positive numbers are allowed!</p>";
+        }
+    }
+}
 
 ?>

@@ -2,7 +2,7 @@ body {
     font-family: Georgia;
     background-image: url('../img/donut1.jpg');
     background-repeat: repeat;
-    background-size:contain;
+    background-size: contain;
     overflow-x: hidden;
 }
 
@@ -46,6 +46,18 @@ h3 {
     height: 70px;
 }
 
+.logOutStyle{
+    margin-left: 15px;
+    width: 70px;
+    height: 70px;
+}
+
+.buttons{
+    display: flex;
+    padding: 15px;
+
+}
+
 .donuts {
     width: 150px;
     height: 150px;
@@ -84,10 +96,34 @@ h3 {
     width: 30vw;
     border: solid #A0E7E5 5px;
     margin: auto;
+    margin-bottom: 20px;
+}
+
+.donutAnswer3 {
+    background-color: #FBE7C6;
+    padding: 10px;
+    width: 30vw;
+    border: solid #A0E7E5 5px;
+    margin: auto;
 }
 
 .ing1 {
     display: block;
+    text-align: center;
+}
+
+.ingFill {
+    display: block;
+    text-align: center;
+}
+
+.ingFill a {
+    text-decoration: none;
+}
+
+.ingFill h3 {
+    margin-bottom: 0;
+    text-decoration: none;
     text-align: center;
 }
 
@@ -98,15 +134,37 @@ h3 {
     margin: auto;
 }
 
+.submitStylePay {
+    font-size: 20px;
+    background-color: #B4F8C8;
+    padding: 5px;
+    margin: auto;
+    margin-top: 30px;
+}
+
 input[type=checkbox] {
     transform: scale(2);
 }
 
-.checkbox{
+.checkbox {
     display: flex;
-    vertical-align: middle;   
+    vertical-align: middle;
 }
 
 .error {
     color: red;
-  }
+}
+
+.quantityField {
+    text-align: center;
+}
+
+.labelStyle {
+    color: #47484A;
+    font-size: 25px;
+    padding: 10px;
+}
+
+.inputStyle {
+    height: 20px;
+}
