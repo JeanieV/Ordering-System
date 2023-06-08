@@ -32,31 +32,47 @@ if (isset($_POST['clearTopping'])) {
     $_SESSION['toppingPrice'] = array();
 }
 
+// Topping Variables
+$totalPrice = 0;
+$selectedCount = 0;
+$maxToppings = 3;
+$errorFlag = false;
+
 // Display the Toppings
 if (isset($_SESSION['toppingName']) && isset($_SESSION['toppingPrice'])) {
     $toppingNames = $_SESSION['toppingName'];
     $toppingPrices = $_SESSION['toppingPrice'];
-} else {
-    $toppingNames = array();
-    $toppingPrices = array();
+
+    foreach ($toppingPrices as $toppingPrice) {
+        $totalPrice += $toppingPrice;
+    }
 }
 
 // The Selected Toppings will show in order.php
 if (isset($_POST['submitToppings']) && isset($_POST['toppings'])) {
-
     $selectedToppings = $_POST['toppings'];
 
-    foreach ($selectedToppings as $toppingIndex) {
-        $selectedTopping = $_SESSION['toppingsArray'][$toppingIndex];
-        $toppingNames[] = $selectedTopping->get_name();
-        $toppingPrices[] = $selectedTopping->get_price();
-        $totalPrice += $selectedTopping->get_price(); // Update totalPrice
+    if (count($selectedToppings) > $maxToppings) {
+        $errorFlag = true;
+    } else {
+        foreach ($selectedToppings as $toppingIndex) {
+            $selectedTopping = $_SESSION['toppingsArray'][$toppingIndex];
+            $toppingNames[] = $selectedTopping->get_name();
+            $toppingPrices[] = $selectedTopping->get_price();
+            $totalPrice += $selectedTopping->get_price(); // Update totalPrice
+        }
     }
+}
 
+if ($errorFlag) {
+    echo "<h5>Maximum $maxToppings toppings allowed. <br> Choose again!</h5>";
+} else {
+    // Update total price and session variables
     $_SESSION['toppingName'] = $toppingNames;
     $_SESSION['toppingPrice'] = $toppingPrices;
     $_SESSION['totalPrice'] = $totalPrice;
 }
+
 
 // Display the selected filling name and price in order.php
 if (isset($_SESSION['fillingName']) && isset($_SESSION['fillingPrice'])) {
@@ -70,6 +86,32 @@ if (isset($_SESSION['fillingName']) && isset($_SESSION['fillingPrice'])) {
 
 // Chosen Quantity
 $chosenQuantity = isset($_GET['quantity']) ? $_GET['quantity'] : 1;
+$_SESSION['chosenQuantity'] = $chosenQuantity;
+
+if (isset($_GET['quantitySubmit'])) {
+    $quantity = isset($_GET['quantity']) ? $_GET['quantity'] : 0;
+
+    if ($quantity > 0) {
+        header("Location: ../php/order.php?quantity=$quantity");
+        exit();
+    } elseif ($quantity < 0) {
+        echo "<h5>Only positive numbers are allowed! <br> Choose again! </h5>";
+    }
+}
+
+// Direct to Payment Page
+if (isset($_POST['paySubmit'])) {
+    $toppingNamesString = implode(',', $toppingNames);
+    $toppingPricesString = implode(',', $toppingPrices); 
+
+    if (isset($_SESSION['fillingName']) && isset($_SESSION['toppingName']) && isset($_SESSION['chosenQuantity'])) {
+        header("Location: ../php/payment.php?selectedDonutName=$selectedDonutName&selectedDonutPrice=$selectedDonutPrice&toppingName=$toppingNamesString&toppingPrice=$toppingPricesString&totalPrice=$totalPrice&selectedFillingName=$selectedFillingName&selectedFillingPrice=$selectedFillingPrice&chosenQuantity=$chosenQuantity");
+    } else {
+        header("Location: ../php/order.php");
+        echo "<h5> Please complete your order before being directed to the Payment Page! </h5>";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -91,26 +133,71 @@ $chosenQuantity = isset($_GET['quantity']) ? $_GET['quantity'] : 1;
     <h1> Order at Dropping Donuts</h1>
     <p> Make your selection from our various options! </p>
 
+    <!-- Order Answer -->
+    <div class="orderSummary">
+        <h3> Summary of Order:</h3>
+        <table>
+            <tr>
+                <th>
+                    <h4> Donut Type: </h4>
+                </th>
+                <th>
+                    <h4> Donut Topping: </h4>
+                </th>
+                <th>
+                    <h4> Donut Filling: </h4>
+                </th>
+                <th>
+                    <h4> Number of Donuts: </h4>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <?php echo "<p>$selectedDonutName - R $selectedDonutPrice</p>" ?>
+                </td>
+                <td>
+                    <?php if (!empty($toppingNames)) {
+                        for ($i = 0; $i < count($toppingNames); $i++) {
+                            echo "<p>{$toppingNames[$i]} - R {$toppingPrices[$i]}</p>";
+                        }
+                    } else {
+                        echo "<p>No Toppings Selected</p>";
+                    } ?>
+                    <?php echo "<p>Total: R $totalPrice</p>"; ?>
+                </td>
+                <td>
+                    <?php echo "<p>$selectedFillingName - R $selectedFillingPrice</p>" ?>
+                </td>
+                <td>
+                    <div class="quantityField">
+                        <form method="GET">
+                            <input type="number" name="quantity" required value="1">
+                            <button type="submit" class="submitStyle" name="quantitySubmit"> Submit </button>
+                        </form>
+                        <?php echo "<p>Chosen Quantity: $chosenQuantity</p>"; ?>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="quantityField">
+            <?php directPayment(); ?>
+        </div>
+
+    </div>
 
     <!-- Donut Type -->
     <div class="donutAnswer1">
         <h3> Your Donut Type:</h3>
-        <?php echo "<p>$selectedDonutName - R $selectedDonutPrice</p>" ?>
         <?php chooseDonuts(); ?>
     </div>
 
     <!-- Donut Topping -->
-    <form method="post" action="order.php">
+    <form method="POST" action="order.php">
 
         <div class="donutAnswer2">
             <h3> Your Donut Topping:</h3>
-            <?php if (!empty($toppingNames)) {
-                for ($i = 0; $i < count($toppingNames); $i++) {
-                    echo "<p>{$toppingNames[$i]} - R {$toppingPrices[$i]}</p>";
-                }
-            } else {
-                echo "<p>No Toppings Selected</p>";
-            } ?>
+
             <?php chooseToppings(); ?>
 
             <div class="ing1">
@@ -122,26 +209,8 @@ $chosenQuantity = isset($_GET['quantity']) ? $_GET['quantity'] : 1;
 
     <div class="donutAnswer3">
         <h3> Your Donut Filling:</h3>
-        <?php echo "<p>$selectedFillingName - R $selectedFillingPrice</p>" ?>
+
         <?php chooseFillings(); ?>
-    </div>
-
-    <h3> Number of Donuts </h3>
-    <div class="quantityField">
-        <form method="POST">
-            <label for="quantity" class="labelStyle">Quantity: </label>
-            <input type="number" name="quantity" class="inputStyle" required value="1">
-            <button type="submit" class="submitStyle" name="quantitySubmit"> Submit! </button>
-        </form>
-        <?php quantityValidate(); ?>
-        <?php echo "<p>Chosen Quantity: $chosenQuantity</p>"; ?>
-    </div>
-
-    <div class="quantityField">
-        <form method="POST">
-            <button type="submit" class="submitStylePay" name="paySubmit"> Next Stop, Payment! </button>
-        </form>
-
     </div>
 
 </body>

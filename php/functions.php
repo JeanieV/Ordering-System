@@ -2,7 +2,6 @@
 session_start();
 
 // Log out function
-
 function logOut()
 {
     $logOUT = <<<DELIMITER
@@ -12,7 +11,20 @@ function logOut()
     </form>
     DELIMITER;
 
-echo $logOUT;
+    echo $logOUT;
+}
+
+// Back to Order Page
+function backToOrder()
+{
+    $orderPage = <<<DELIMITER
+    <form method="GET">
+    <button type="submit" name="orderButton"><img class="logOutStyle" src="../img/order.png" 
+    alt="Back to Order" title="Back to Order" attribution="https://www.flaticon.com/free-icons/list"></button>
+    </form>
+    DELIMITER;
+
+    echo $orderPage;
 }
 
 // Donut Class
@@ -86,9 +98,8 @@ function chooseDonuts()
         $donutDisplay = <<<DELIMITER
         <div class="ing">
         <a href="order.php?view=$index" class="btn btn-primary">
-                <h3>{$donut->get_name()}</h3>    
+                <p>{$donut->get_name()} - R {$donut->get_price()} </p>    
                 <img src="$imagePath.$imageExtension" alt="Donut Image" class="donuts">
-                <h3>R {$donut->get_price()}</h3> 
         </a>
         </div>
         DELIMITER;
@@ -158,13 +169,6 @@ $_SESSION['toppingsArray'] = populateToppingsArray($jsonFile2);
 
 function chooseToppings()
 {
-    $totalPrice = $_SESSION['totalPrice'];
-
-    $totalPrice = 0;
-    $selectedCount = 0;
-    $maxToppings = 3; // Maximum number of toppings allowed
-    $errorFlag = false;
-
     foreach ($_SESSION['toppingsArray'] as $index => $topping) {
         $imageName = $topping->get_name();
         $imagePath = "../img/{$imageName}";
@@ -181,38 +185,21 @@ function chooseToppings()
 
         $toppingDisplay = <<<DELIMITER
         <div class="ing1">
-            <h3>{$topping->get_name()}</h3>  
+            <p>{$topping->get_name()} - R {$topping->get_price()}</p>  
             <input type="checkbox" name="toppings[]" value="$index">  
             <img src="$imagePath.$imageExtension" alt="Donut Image" class="donuts">
-            <h3>R {$topping->get_price()}</h3> 
         </div>
         DELIMITER;
 
         echo $toppingDisplay;
-
-        if (isset($_POST['toppings']) && in_array($index, $_POST['toppings'])) {
-            if ($selectedCount >= $maxToppings) {
-                $errorFlag = true;
-                break;
-            }
-            $totalPrice += $topping->get_price();
-            $selectedCount++;
-        }
     }
-    if ($errorFlag) {
-        echo "<p class='error'>Maximum $maxToppings toppings allowed. <br> Clear Toppings and choose again!</p>";
-        $totalPrice = 0; // Reset the total price
-    } else {
-        echo "<p>Total: R $totalPrice</p>";
-    }
-
 }
 
 function clearToppings()
 {
     $clearDisplay = <<<DELIMITER
         <div class="ing1">
-            <button type="submit" name"clearTopping"> Clear </button>
+            <button type="submit" name"=clearTopping"> Clear </button>
         </div>
         DELIMITER;
 
@@ -293,9 +280,9 @@ function chooseFillings()
         $fillingDisplay = <<<DELIMITER
         <div class="ingFill">
         <a href="order.php?fill=$index" class="btn btn-primary">
-                <h3>{$filling->get_name()}</h3>    
+                <p>{$filling->get_name()} - R {$filling->get_price()}</p>    
                 <img src="$imagePath.$imageExtension" alt="Donut Image" class="donuts">
-                <h3>R {$filling->get_price()}</h3> 
+                 
         </a>
         </div>
         DELIMITER;
@@ -321,20 +308,24 @@ if (isset($_GET['fill'])) {
     $_SESSION['fillingPrice'] = $viewFilling->get_price();
 }
 
-// Quantity Validation
 
-function quantityValidate()
+// Payment Page
+
+function directPayment()
 {
-    if (isset($_POST['quantitySubmit'])) {
-        $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : 0;
+    $directPay = <<<DELIMITER
+    <form method="POST">
+        <button type="submit" class="submitStylePay" name="paySubmit"> Next Stop, Payment! </button>
+    </form>
+    DELIMITER;
 
-        if ($quantity > 0) {
-            header("Location: ../php/order.php?quantity=$quantity");
-            exit();
-        } elseif ($quantity < 0) {
-            echo "<p>Only positive numbers are allowed!</p>";
-        }
-    }
+    echo $directPay;
+}
+
+function calcPriceOfDonut(){
+
+    echo "<p> Price of Donut Type: </p>";
+
 }
 
 ?>

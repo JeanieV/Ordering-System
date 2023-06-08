@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h1> Welcome to Dropping Donuts </h1>
     <div class="formBackground">
         <?php ?>
-        <form action="index.php" method="post">
+        <form action="index.php" method="POST">
             <h2> Fill in a Dropping Donut User: </h2>
             <p class="description1"> Ordering and Payment will then be much easier!</p>
 

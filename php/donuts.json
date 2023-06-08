@@ -1,11 +1,11 @@
 {
     "donuts": [
         {
-            "name": "plain",
+            "name": "Plain",
             "price": 4.00
         },
         {
-            "name": "glaze",
+            "name": "Glaze",
             "price": 6.00
         }
     ]

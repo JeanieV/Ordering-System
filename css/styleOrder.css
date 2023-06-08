@@ -14,7 +14,7 @@ h1 {
 }
 
 p {
-    font-size: 25px;
+    font-size: 20px;
     color: #47484A;
     padding: 5px;
     text-align: center;
@@ -30,8 +30,24 @@ h2 {
 h3 {
     font-size: 25px;
     color: #47484A;
-    padding: 15px;
+    padding: 5px;
     text-align: center;
+}
+
+h4 {
+    font-size: 25px;
+    color: #47484A;
+    padding: 5px;
+    text-align: center;
+    margin: 0;
+}
+
+h5{
+    font-size: 25px;
+    color: red;
+    padding: 5px;
+    text-align: center;
+    margin: 0; 
 }
 
 .formBackground {
@@ -46,13 +62,13 @@ h3 {
     height: 70px;
 }
 
-.logOutStyle{
+.logOutStyle {
     margin-left: 15px;
     width: 70px;
     height: 70px;
 }
 
-.buttons{
+.buttons {
     display: flex;
     padding: 15px;
 
@@ -86,6 +102,15 @@ h3 {
     padding: 10px;
     width: 30vw;
     border: solid #A0E7E5 5px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.orderSummary {
+    background-color: #A0E7E5;
+    padding: 10px;
+    width: 80vw;
+    border: solid #47484A 5px;
     margin: auto;
     margin-bottom: 20px;
 }
@@ -132,6 +157,7 @@ h3 {
     background-color: #B4F8C8;
     padding: 5px;
     margin: auto;
+    margin-top: 30px;
 }
 
 .submitStylePay {
@@ -146,17 +172,22 @@ input[type=checkbox] {
     transform: scale(2);
 }
 
+input[type=number] {
+    width: 50px;
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+}
+
 .checkbox {
     display: flex;
     vertical-align: middle;
 }
 
-.error {
-    color: red;
-}
 
 .quantityField {
     text-align: center;
+    margin: 0;
 }
 
 .labelStyle {
@@ -168,3 +199,12 @@ input[type=checkbox] {
 .inputStyle {
     height: 20px;
 }
+
+table {
+    margin: auto;
+}
+
+th {
+    padding: 20px;
+}
+

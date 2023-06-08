@@ -1,0 +1,85 @@
+body {
+    font-family: Georgia;
+    background-image: url('../img/donut2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+h1 {
+    font-size: 50px;
+    color: #47484A;
+    padding: 15px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 25px;
+    color: #47484A;
+    padding: 15px;
+    text-align: center;
+}
+
+h3 {
+    font-size: 25px;
+    color: #47484A;
+    padding: 5px;
+    text-align: center;
+}
+
+h4 {
+    font-size: 25px;
+    color: #47484A;
+    padding: 5px;
+    text-align: center;
+    margin: 0;
+}
+
+.logOutStyle {
+    width: 70px;
+    height: 70px;
+}
+
+.buttons {
+    display: flex;
+    padding: 15px;
+
+}
+
+.paymentSummary {
+    background-color: #A0E7E5;
+    padding: 10px;
+    width: 80vw;
+    border: solid #47484A 5px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.paymentSummaryFinal{
+    background-color: #FBE7C6;
+    padding: 10px;
+    width: 80vw;
+    border: solid #47484A 5px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.quantityField {
+    text-align: center;
+    margin: 0;
+}
+
+table {
+    margin: auto;
+}
+
+th {
+    padding: 20px;
+}
+
+p {
+    font-size: 20px;
+    color: #47484A;
+    padding: 5px;
+    text-align: center;
+}
