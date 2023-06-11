@@ -95,7 +95,7 @@ if (isset($_GET['quantitySubmit'])) {
         header("Location: ../php/order.php?quantity=$quantity");
         exit();
     } elseif ($quantity < 0) {
-        echo "<h5>Only positive numbers are allowed! <br> Choose again! </h5>";
+        echo "<h5>Only positive numbers are allowed! <br> You can't have a negative donut! </h5>";
     }
 }
 

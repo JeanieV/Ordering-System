@@ -17,8 +17,8 @@ $selectedFillingPrice = $_GET['selectedFillingPrice'];
 $selectedDonutName = $_GET['selectedDonutName'];
 $selectedDonutPrice = $_GET['selectedDonutPrice'];
 $chosenQuantity = $_GET['chosenQuantity'];
-$toppingNames = explode(',', $_GET['toppingName']); 
-$toppingPrices = explode(',', $_GET['toppingPrice']); 
+$toppingNames = explode(',', $_GET['toppingName']);
+$toppingPrices = explode(',', $_GET['toppingPrice']);
 $totalPrice = $_GET['totalPrice'];
 
 ?>
@@ -89,6 +89,7 @@ $totalPrice = $_GET['totalPrice'];
 
     <form method="POST" class="paymentSummaryFinal">
         <h2> Your Payment Details: </h2>
+        <?php calcPriceOfDonut($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $price); ?>
 
     </form>
 

@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 // Log out function
 function logOut()
 {
@@ -322,9 +323,23 @@ function directPayment()
     echo $directPay;
 }
 
-function calcPriceOfDonut(){
+// Function to calculate the price of donuts
+function calcPriceOfDonut($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $price)
+{
 
-    echo "<p> Price of Donut Type: </p>";
+    $price = ($selectedDonutPrice + $totalPrice + $selectedFillingPrice) * $chosenQuantity;
+
+    $viewPrice = <<<DELIMITER
+    <form method="POST">
+        <p> Price of Donut Type: R $selectedDonutPrice </p>
+        <p> Price of Donut Toppings: R $totalPrice </p>
+        <p> Price of Donut Filling: R $selectedFillingPrice </p>
+        <p> Number of Donuts: $chosenQuantity </p>
+        <h2> Total: R $price </h2>
+   </form>
+   DELIMITER;
+
+    echo $viewPrice;
 
 }
 
