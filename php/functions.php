@@ -321,26 +321,37 @@ function directPayment()
     DELIMITER;
 
     echo $directPay;
+
+    
 }
 
 // Function to calculate the price of donuts
-function calcPriceOfDonut($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $price)
+function calcPriceOfDonut($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $single)
+{
+
+    $single = $selectedDonutPrice + $totalPrice + $selectedFillingPrice;
+
+    $viewPrice = <<<DELIMITER
+        <p> Price of Donut Type: R $selectedDonutPrice </p>
+        <p> Price of Donut Toppings: R $totalPrice </p>
+        <p> Price of Donut Filling: R $selectedFillingPrice </p>
+        <h5> Price of One Donut: R $single </h5>
+        <p> Number of Donuts: $chosenQuantity </p>
+   DELIMITER;
+
+    echo $viewPrice;
+}
+
+function getOrderTotal($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $price)
 {
 
     $price = ($selectedDonutPrice + $totalPrice + $selectedFillingPrice) * $chosenQuantity;
 
-    $viewPrice = <<<DELIMITER
-    <form method="POST">
-        <p> Price of Donut Type: R $selectedDonutPrice </p>
-        <p> Price of Donut Toppings: R $totalPrice </p>
-        <p> Price of Donut Filling: R $selectedFillingPrice </p>
-        <p> Number of Donuts: $chosenQuantity </p>
+    $viewPriceTotal = <<<DELIMITER
         <h2> Total: R $price </h2>
-   </form>
    DELIMITER;
 
-    echo $viewPrice;
-
+    echo $viewPriceTotal;
 }
 
 ?>

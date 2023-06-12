@@ -21,6 +21,10 @@ $toppingNames = explode(',', $_GET['toppingName']);
 $toppingPrices = explode(',', $_GET['toppingPrice']);
 $totalPrice = $_GET['totalPrice'];
 
+if (isset($_POST['pay'])) {
+    echo "<h6> Thank you for completing your order at Dropping Donuts! </h6>";
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -89,10 +93,10 @@ $totalPrice = $_GET['totalPrice'];
 
     <form method="POST" class="paymentSummaryFinal">
         <h2> Your Payment Details: </h2>
-        <?php calcPriceOfDonut($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $price); ?>
-
+        <?php calcPriceOfDonut($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $single); ?>
+        <?php getOrderTotal($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $price); ?>
+        <button type="submit" name="pay" class="submitPay"> Pay for Order </button>
     </form>
-
 
 </body>
 

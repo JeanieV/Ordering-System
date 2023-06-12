@@ -90,24 +90,16 @@ $_SESSION['chosenQuantity'] = $chosenQuantity;
 
 if (isset($_GET['quantitySubmit'])) {
     $quantity = isset($_GET['quantity']) ? $_GET['quantity'] : 0;
-
-    if ($quantity > 0) {
-        header("Location: ../php/order.php?quantity=$quantity");
-        exit();
-    } elseif ($quantity < 0) {
-        echo "<h5>Only positive numbers are allowed! <br> You can't have a negative donut! </h5>";
-    }
 }
 
 // Direct to Payment Page
 if (isset($_POST['paySubmit'])) {
     $toppingNamesString = implode(',', $toppingNames);
-    $toppingPricesString = implode(',', $toppingPrices); 
+    $toppingPricesString = implode(',', $toppingPrices);
 
     if (isset($_SESSION['fillingName']) && isset($_SESSION['toppingName']) && isset($_SESSION['chosenQuantity'])) {
         header("Location: ../php/payment.php?selectedDonutName=$selectedDonutName&selectedDonutPrice=$selectedDonutPrice&toppingName=$toppingNamesString&toppingPrice=$toppingPricesString&totalPrice=$totalPrice&selectedFillingName=$selectedFillingName&selectedFillingPrice=$selectedFillingPrice&chosenQuantity=$chosenQuantity");
-    } else {
-        header("Location: ../php/order.php");
+    } elseif(($_SESSION['fillingName'] == "None Selected")) {
         echo "<h5> Please complete your order before being directed to the Payment Page! </h5>";
     }
 }
@@ -174,7 +166,13 @@ if (isset($_POST['paySubmit'])) {
                             <input type="number" name="quantity" required value="1">
                             <button type="submit" class="submitStyle" name="quantitySubmit"> Submit </button>
                         </form>
-                        <?php echo "<p>Chosen Quantity: $chosenQuantity</p>"; ?>
+                        <?php echo "<p>Chosen Quantity: $chosenQuantity</p>";
+                        if ($quantity > 0) {
+                            header("Location: ../php/order.php?quantity=$quantity");
+                            exit();
+                        } elseif ($quantity < 0) {
+                            echo "<h6>Only positive numbers are allowed! <br> You can't have a negative donut! </h6>";
+                        } ?>
                     </div>
                 </td>
             </tr>

@@ -42,12 +42,20 @@ h4 {
     margin: 0;
 }
 
-h5{
+h5 {
     font-size: 25px;
     color: red;
     padding: 5px;
     text-align: center;
-    margin: 0; 
+    margin: 0;
+}
+
+h6 {
+    font-size: 15px;
+    color: red;
+    padding: 5px;
+    text-align: center;
+    margin: 0;
 }
 
 .formBackground {
@@ -207,4 +215,3 @@ table {
 th {
     padding: 20px;
 }
-

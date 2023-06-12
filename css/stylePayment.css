@@ -35,6 +35,23 @@ h4 {
     margin: 0;
 }
 
+h5 {
+    font-size: 20px;
+    color: #47484A;
+    padding: 5px;
+    text-align: center;
+    margin: 0;
+}
+
+h6 {
+    font-size: 25px;
+    color: red;
+    padding: 5px;
+    text-align: center;
+    margin: 0;
+}
+
+
 .logOutStyle {
     width: 70px;
     height: 70px;
@@ -55,7 +72,7 @@ h4 {
     margin-bottom: 20px;
 }
 
-.paymentSummaryFinal{
+.paymentSummaryFinal {
     background-color: #FBE7C6;
     padding: 10px;
     width: 80vw;
@@ -82,4 +99,12 @@ p {
     color: #47484A;
     padding: 5px;
     text-align: center;
+}
+
+.submitPay {
+    font-size: 20px;
+    background-color: #B4F8C8;
+    padding: 5px;
+    margin: auto;
+    display: flex;
 }
