@@ -99,7 +99,7 @@ if (isset($_POST['paySubmit'])) {
 
     if (isset($_SESSION['fillingName']) && isset($_SESSION['toppingName']) && isset($_SESSION['chosenQuantity'])) {
         header("Location: ../php/payment.php?selectedDonutName=$selectedDonutName&selectedDonutPrice=$selectedDonutPrice&toppingName=$toppingNamesString&toppingPrice=$toppingPricesString&totalPrice=$totalPrice&selectedFillingName=$selectedFillingName&selectedFillingPrice=$selectedFillingPrice&chosenQuantity=$chosenQuantity");
-    } elseif(($_SESSION['fillingName'] == "None Selected")) {
+    } else {
         echo "<h5> Please complete your order before being directed to the Payment Page! </h5>";
     }
 }
@@ -162,7 +162,7 @@ if (isset($_POST['paySubmit'])) {
                 </td>
                 <td>
                     <div class="quantityField">
-                        <form method="GET">
+                        <form method="GET" action="order.php">
                             <input type="number" name="quantity" required value="1">
                             <button type="submit" class="submitStyle" name="quantitySubmit"> Submit </button>
                         </form>

@@ -60,7 +60,17 @@ h6 {
 .buttons {
     display: flex;
     padding: 15px;
+}
 
+.goodbyeButton {
+    margin: auto;
+    text-align: center;
+}
+
+.tranBack {
+    border: none;
+    background-color: transparent;
+    outline: none;
 }
 
 .paymentSummary {

@@ -12,6 +12,7 @@ if (isset($_GET['orderButton'])) {
     header("Location: ../php/order.php");
 }
 
+// Make all the variables globally known
 $selectedFillingName = $_GET['selectedFillingName'];
 $selectedFillingPrice = $_GET['selectedFillingPrice'];
 $selectedDonutName = $_GET['selectedDonutName'];
@@ -21,10 +22,10 @@ $toppingNames = explode(',', $_GET['toppingName']);
 $toppingPrices = explode(',', $_GET['toppingPrice']);
 $totalPrice = $_GET['totalPrice'];
 
+// When the user clicks on Pay for Order
 if (isset($_POST['pay'])) {
-    echo "<h6> Thank you for completing your order at Dropping Donuts! </h6>";
+    header("Location: ../php/goodbye.php");
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +42,7 @@ if (isset($_POST['pay'])) {
 <body>
 
     <div class="buttons">
-        <?php backToOrder(); ?>
+        <?php backToOrder($selectedDonutName, $selectedDonutPrice, $toppingNamesString, $toppingPricesString, $totalPrice, $selectedFillingName, $selectedFillingPrice, $chosenQuantity) ?>
     </div>
 
     <h1> Payment at Dropping Donuts </h1>

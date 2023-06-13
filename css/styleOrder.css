@@ -215,3 +215,9 @@ table {
 th {
     padding: 20px;
 }
+
+.tranBack {
+    border: none;
+    background-color: transparent;
+    outline: none;
+}

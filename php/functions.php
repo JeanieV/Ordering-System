@@ -7,7 +7,7 @@ function logOut()
 {
     $logOUT = <<<DELIMITER
     <form method="GET">
-    <button type="submit" name="logOutButton"><img class="logOutStyle" src="../img/logout.png" 
+    <button type="submit" name="logOutButton" class="tranBack"><img class="logOutStyle" src="../img/logout.png" 
     alt="Log Out" title="Log Out" attribution="https://www.flaticon.com/free-icons/logout"></button>
     </form>
     DELIMITER;
@@ -15,12 +15,20 @@ function logOut()
     echo $logOUT;
 }
 
-// Back to Order Page
-function backToOrder()
+// Back to Order Page and remember all the information chosen
+function backToOrder($selectedDonutName, $selectedDonutPrice, $toppingNamesString, $toppingPricesString, $totalPrice, $selectedFillingName, $selectedFillingPrice, $chosenQuantity)
 {
     $orderPage = <<<DELIMITER
-    <form method="GET">
-    <button type="submit" name="orderButton"><img class="logOutStyle" src="../img/order.png" 
+    <form method="GET" action='../php/order.php'>
+    <input type='hidden' name='selectedDonutName' value='$selectedDonutName'>
+    <input type='hidden' name='selectedDonutPrice' value='$selectedDonutPrice'>
+    <input type='hidden' name='toppingName' value='$toppingNamesString'>
+    <input type='hidden' name='toppingPrice' value='$toppingPricesString'>
+    <input type='hidden' name='totalPrice' value='$totalPrice'>
+    <input type='hidden' name='selectedFillingName' value='$selectedFillingName'>
+    <input type='hidden' name='selectedFillingPrice' value='$selectedFillingPrice'>
+    <input type='hidden' name='quantity' value='$chosenQuantity'>
+    <button type="submit" name="orderButton" class="tranBack"><img class="logOutStyle" src="../img/order.png" 
     alt="Back to Order" title="Back to Order" attribution="https://www.flaticon.com/free-icons/list"></button>
     </form>
     DELIMITER;
@@ -86,7 +94,7 @@ function chooseDonuts()
         $imageName = $donut->get_name();
         $imagePath = "../img/{$imageName}";
 
-        // Determine the appropriate image extension based on availability
+        // Determine the image extension
         $imageExtensions = ['webp', 'jpg', 'JPG'];
         foreach ($imageExtensions as $extension) {
             $imageFile = $imagePath . '.' . $extension;
@@ -96,6 +104,7 @@ function chooseDonuts()
             }
         }
 
+        // Click on the name or image to choose the type of donut
         $donutDisplay = <<<DELIMITER
         <div class="ing">
         <a href="order.php?view=$index" class="btn btn-primary">
@@ -174,7 +183,7 @@ function chooseToppings()
         $imageName = $topping->get_name();
         $imagePath = "../img/{$imageName}";
 
-        // Determine the appropriate image extension based on availability
+        // Determine the image extension
         $imageExtensions = ['webp', 'jpg', 'JPG'];
         foreach ($imageExtensions as $extension) {
             $imageFile = $imagePath . '.' . $extension;
@@ -184,6 +193,7 @@ function chooseToppings()
             }
         }
 
+        // Click on the checkboxes to choose the donut toppings
         $toppingDisplay = <<<DELIMITER
         <div class="ing1">
             <p>{$topping->get_name()} - R {$topping->get_price()}</p>  
@@ -196,6 +206,7 @@ function chooseToppings()
     }
 }
 
+// This function will clear the current topping array and return default again
 function clearToppings()
 {
     $clearDisplay = <<<DELIMITER
@@ -268,7 +279,7 @@ function chooseFillings()
         $imageName = $filling->get_name();
         $imagePath = "../img/{$imageName}";
 
-        // Determine the appropriate image extension based on availability
+        // Determine the image extension
         $imageExtensions = ['webp', 'jpg', 'JPG'];
         foreach ($imageExtensions as $extension) {
             $imageFile = $imagePath . '.' . $extension;
@@ -278,6 +289,7 @@ function chooseFillings()
             }
         }
 
+        // Click on the image or name to choose the donut filling
         $fillingDisplay = <<<DELIMITER
         <div class="ingFill">
         <a href="order.php?fill=$index" class="btn btn-primary">
@@ -310,8 +322,7 @@ if (isset($_GET['fill'])) {
 }
 
 
-// Payment Page
-
+// Go to Payment Page
 function directPayment()
 {
     $directPay = <<<DELIMITER
@@ -321,8 +332,6 @@ function directPayment()
     DELIMITER;
 
     echo $directPay;
-
-    
 }
 
 // Function to calculate the price of donuts
@@ -331,7 +340,8 @@ function calcPriceOfDonut($selectedDonutPrice, $totalPrice, $selectedFillingPric
 
     $single = $selectedDonutPrice + $totalPrice + $selectedFillingPrice;
 
-    $viewPrice = <<<DELIMITER
+    if (is_int($single)) {
+        $viewPrice = <<<DELIMITER
         <p> Price of Donut Type: R $selectedDonutPrice </p>
         <p> Price of Donut Toppings: R $totalPrice </p>
         <p> Price of Donut Filling: R $selectedFillingPrice </p>
@@ -339,19 +349,25 @@ function calcPriceOfDonut($selectedDonutPrice, $totalPrice, $selectedFillingPric
         <p> Number of Donuts: $chosenQuantity </p>
    DELIMITER;
 
-    echo $viewPrice;
+        echo $viewPrice;
+    } else {
+        echo "Not a numeric value";
+    }
 }
 
 function getOrderTotal($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $price)
 {
-
     $price = ($selectedDonutPrice + $totalPrice + $selectedFillingPrice) * $chosenQuantity;
 
-    $viewPriceTotal = <<<DELIMITER
+    if (is_int($price)) {
+        $viewPriceTotal = <<<DELIMITER
         <h2> Total: R $price </h2>
    DELIMITER;
 
-    echo $viewPriceTotal;
+        echo $viewPriceTotal;
+    } else {
+        echo "Not a numeric value";
+    }
 }
 
 ?>
