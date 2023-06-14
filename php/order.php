@@ -42,6 +42,8 @@ $errorFlag = false;
 if (isset($_SESSION['toppingName']) && isset($_SESSION['toppingPrice'])) {
     $toppingNames = $_SESSION['toppingName'];
     $toppingPrices = $_SESSION['toppingPrice'];
+    $toppingNamesString = implode(',', $toppingNames);
+    $toppingPricesString = implode(',', $toppingPrices);
 
     foreach ($toppingPrices as $toppingPrice) {
         $totalPrice += $toppingPrice;
@@ -51,6 +53,7 @@ if (isset($_SESSION['toppingName']) && isset($_SESSION['toppingPrice'])) {
 // The Selected Toppings will show in order.php
 if (isset($_POST['submitToppings']) && isset($_POST['toppings'])) {
     $selectedToppings = $_POST['toppings'];
+    
 
     if (count($selectedToppings) > $maxToppings) {
         $errorFlag = true;
@@ -94,9 +97,7 @@ if (isset($_GET['quantitySubmit'])) {
 
 // Direct to Payment Page
 if (isset($_POST['paySubmit'])) {
-    $toppingNamesString = implode(',', $toppingNames);
-    $toppingPricesString = implode(',', $toppingPrices);
-
+    
     if (isset($_SESSION['fillingName']) && isset($_SESSION['toppingName']) && isset($_SESSION['chosenQuantity'])) {
         header("Location: ../php/payment.php?selectedDonutName=$selectedDonutName&selectedDonutPrice=$selectedDonutPrice&toppingName=$toppingNamesString&toppingPrice=$toppingPricesString&totalPrice=$totalPrice&selectedFillingName=$selectedFillingName&selectedFillingPrice=$selectedFillingPrice&chosenQuantity=$chosenQuantity");
     } else {
