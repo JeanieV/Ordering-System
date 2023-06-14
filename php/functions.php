@@ -337,9 +337,9 @@ function directPayment()
 // Function to calculate the price of donuts
 function calcPriceOfDonut($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $single)
 {
-
     $single = $selectedDonutPrice + $totalPrice + $selectedFillingPrice;
-
+    
+    // Is the total numeric?
     if (is_int($single)) {
         $viewPrice = <<<DELIMITER
         <p> Price of Donut Type: R $selectedDonutPrice </p>
@@ -355,10 +355,12 @@ function calcPriceOfDonut($selectedDonutPrice, $totalPrice, $selectedFillingPric
     }
 }
 
+// Function to calculate the total of the entire order
 function getOrderTotal($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $price)
 {
     $price = ($selectedDonutPrice + $totalPrice + $selectedFillingPrice) * $chosenQuantity;
 
+    // Is the total numeric?
     if (is_int($price)) {
         $viewPriceTotal = <<<DELIMITER
         <h2> Total: R $price </h2>
