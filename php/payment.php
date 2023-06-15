@@ -41,12 +41,14 @@ if (isset($_POST['pay'])) {
 
 <body>
 
+<!-- Back to Order page -->
     <div class="buttons">
         <?php backToOrder($selectedDonutName, $selectedDonutPrice, $toppingNamesString, $toppingPricesString, $totalPrice, $selectedFillingName, $selectedFillingPrice, $chosenQuantity) ?>
     </div>
 
     <h1> Payment at Dropping Donuts </h1>
 
+    <!-- Order Summary shows again -->
     <div class="paymentSummary">
         <?php echo "<h3> Thank you for Ordering $username! </h3>" ?>
         <p> Your order summary looks like this: </p>
@@ -92,10 +94,12 @@ if (isset($_POST['pay'])) {
         </table>
     </div>
 
+    <!-- Actual payment details with total and button -->
     <form method="POST" class="paymentSummaryFinal">
         <h2> Your Payment Details: </h2>
         <?php calcPriceOfDonut($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $single); ?>
         <?php getOrderTotal($selectedDonutPrice, $totalPrice, $selectedFillingPrice, $chosenQuantity, $price); ?>
+        <!-- Will be directed to goodbye page if clicked -->
         <button type="submit" name="pay" class="submitPay"> Pay for Order </button>
     </form>
 

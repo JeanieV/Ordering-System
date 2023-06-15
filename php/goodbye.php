@@ -33,6 +33,8 @@ if (isset($_SESSION['username'])) {
 
     <?php echo "<h1> Thank you for completing your order at Dropping Donuts, $username! </h1>"; ?>
     <h2> Visit us again soon! </h2>
+    
+    <!-- Log out the session -->
     <div class="goodbyeButton">
         <?php logOut(); ?>
     </div>

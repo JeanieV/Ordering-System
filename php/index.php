@@ -6,7 +6,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Store the form values in session variables
     $_SESSION['username'] = $_POST['username'];
-    // Redirect to payment.php
     header("Location: ./order.php");
     exit();
 
@@ -14,7 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_SESSION['username'])) {
         $_SESSION["error_message"] = "Please fill in the username.";
     } else {
-        // Redirect to order.php
         header("Location: ./payment.php");
         exit();
     }
@@ -34,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
 
+    <!-- Sign Up Form -->
     <h1> Welcome to Dropping Donuts </h1>
     <div class="formBackground">
         <?php ?>

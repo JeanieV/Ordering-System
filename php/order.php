@@ -98,7 +98,7 @@ if (isset($_GET['quantitySubmit'])) {
 // Direct to Payment Page
 if (isset($_POST['paySubmit'])) {
     
-    if (isset($_SESSION['fillingName']) && isset($_SESSION['toppingName']) && isset($_SESSION['chosenQuantity'])) {
+    if (!empty($_SESSION['toppingName']) && ($_SESSION['fillingName'] != "None Selected") && isset($_SESSION['chosenQuantity'])) {
         header("Location: ../php/payment.php?selectedDonutName=$selectedDonutName&selectedDonutPrice=$selectedDonutPrice&toppingName=$toppingNamesString&toppingPrice=$toppingPricesString&totalPrice=$totalPrice&selectedFillingName=$selectedFillingName&selectedFillingPrice=$selectedFillingPrice&chosenQuantity=$chosenQuantity");
     } else {
         echo "<h5> Please complete your order before being directed to the Payment Page! </h5>";
